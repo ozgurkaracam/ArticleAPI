@@ -1897,7 +1897,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -1948,6 +1947,9 @@ var vueScrollTo = __webpack_require__(/*! vue-scrollto */ "./node_modules/vue-sc
   methods: {
     test: function test(ss) {
       alert(ss);
+    },
+    isActive: function isActive() {
+      return true;
     },
     getArticles: function getArticles(page) {
       var _this = this;
@@ -38143,8 +38145,6 @@ var render = function() {
     [
       _c("h2", [_vm._v(_vm._s(_vm.totalArticle) + " Articles")]),
       _vm._v(" "),
-      _c("h1", [_vm._v(_vm._s(this.pagination))]),
-      _vm._v(" "),
       _c("form", { staticClass: "mb-3" }, [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "exampleInputEmail1" } }, [
@@ -38260,31 +38260,31 @@ var render = function() {
         "ul",
         { staticClass: "pagination" },
         [
-          _vm.pagination.prev
-            ? _c(
-                "li",
-                {
-                  staticClass: "page-item",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.getArticles(_vm.pagination.prev)
-                    }
-                  }
-                },
-                [
-                  _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-                    _vm._v("Previous")
-                  ])
-                ]
-              )
-            : _vm._e(),
+          _c(
+            "li",
+            {
+              staticClass: "page-item",
+              class: { disabled: !_vm.pagination.prev },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.getArticles(_vm.pagination.prev)
+                }
+              }
+            },
+            [
+              _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
+                _vm._v("Previous")
+              ])
+            ]
+          ),
           _vm._v(" "),
           _vm._l(_vm.pagination.total_page, function(pnumb) {
             return _c(
               "li",
               {
                 staticClass: "page-item",
+                class: { active: pnumb == _vm.pagination.current_page },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
@@ -38302,25 +38302,24 @@ var render = function() {
             )
           }),
           _vm._v(" "),
-          _vm.pagination.next
-            ? _c(
-                "li",
-                {
-                  staticClass: "page-item",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.getArticles(_vm.pagination.next.toString())
-                    }
-                  }
-                },
-                [
-                  _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-                    _vm._v("Next")
-                  ])
-                ]
-              )
-            : _vm._e()
+          _c(
+            "li",
+            {
+              staticClass: "page-item",
+              class: { disabled: !_vm.pagination.next },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.getArticles(_vm.pagination.next.toString())
+                }
+              }
+            },
+            [
+              _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
+                _vm._v("Next")
+              ])
+            ]
+          )
         ],
         2
       ),

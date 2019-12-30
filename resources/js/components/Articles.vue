@@ -1,7 +1,6 @@
 <template>
     <div class="articles">
         <h2>{{ totalArticle }} Articles</h2>
-        <h1>{{this.pagination}}</h1>
         <form class="mb-3">
             <div class="form-group">
                 <label for="exampleInputEmail1">Article title</label>
@@ -17,9 +16,9 @@
             <button type="submit" v-if="edit" class="btn btn-primary btn-info col-md-12" v-on:click.prevent="editedArticle" >Edit Article</button>
         </form>
         <ul class="pagination">
-        <li class="page-item" v-if="pagination.prev" v-on:click.prevent="getArticles(pagination.prev)"><a class="page-link"  href="#">Previous</a></li>
-        <li class="page-item" v-for="pnumb in pagination.total_page" v-on:click.prevent="getArticles(pagination.path+'?page='+pnumb)"><a class="page-link" href="#">{{ pnumb }}</a></li>
-        <li class="page-item" v-if="pagination.next" v-on:click.prevent="getArticles(pagination.next.toString())"><a class="page-link" href="#">Next</a></li>
+        <li class="page-item" v-bind:class="{disabled: !pagination.prev}" v-on:click.prevent="getArticles(pagination.prev)"><a class="page-link"  href="#">Previous</a></li>
+        <li class="page-item" v-for="pnumb in pagination.total_page" v-bind:class="{ active : pnumb==pagination.current_page}" v-on:click.prevent="getArticles(pagination.path+'?page='+pnumb)"><a class="page-link" href="#">{{ pnumb }}</a></li>
+        <li class="page-item" v-bind:class="{disabled : !pagination.next}" v-on:click.prevent="getArticles(pagination.next.toString())"><a class="page-link" href="#">Next</a></li>
     </ul>
         <p v-for="article in articles">
             <Article v-bind:article="article" v-on:delete-article="deleteArticle(article)" v-on:edit-article="editArticle(article)" />
@@ -76,6 +75,9 @@
                 test(ss){
                     alert(ss);
                 },
+            isActive(){
+                    return true;
+            },
             getArticles(page){
                 if(page == null)
                     page='api/articles';
